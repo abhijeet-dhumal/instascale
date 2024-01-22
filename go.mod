@@ -3,9 +3,11 @@ module github.com/project-codeflare/instascale
 go 1.19
 
 require (
-	github.com/onsi/gomega v1.27.7
-	github.com/openshift-online/ocm-sdk-go v0.1.327
-	github.com/openshift/api v0.0.0-20220411210816-c3bb724c282a
+	github.com/onsi/gomega v1.27.10
+	github.com/openshift-online/ocm-sdk-go v0.1.368
+	github.com/openshift/api v0.0.0-20230213134911-7ba313770556
+	github.com/openshift/client-go v0.0.0-20221019143426-16aed247da5c
+	github.com/project-codeflare/codeflare-common v0.0.0-20240112102902-0acab738bea5
 	github.com/project-codeflare/multi-cluster-app-dispatcher v1.39.0
 	k8s.io/api v0.27.8
 	k8s.io/apimachinery v0.27.8
@@ -15,6 +17,8 @@ require (
 
 replace sigs.k8s.io/custom-metrics-apiserver => sigs.k8s.io/custom-metrics-apiserver v1.25.1-0.20230306170449-63d8c93851f3
 
+replace github.com/project-codeflare/codeflare-common => /home/abdhumal/AbhiDev/RedHatDev/codeflare-common
+
 require (
 	github.com/aymerick/douceur v0.2.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
@@ -22,6 +26,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/emicklei/go-restful/v3 v3.10.1 // indirect
+	github.com/evanphx/json-patch v4.12.0+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.6.0 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-logr/logr v1.2.4 // indirect
@@ -36,10 +41,10 @@ require (
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/gnostic v0.6.9 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
-	github.com/google/gofuzz v1.1.0 // indirect
+	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/css v1.0.0 // indirect
-	github.com/imdario/mergo v0.3.6 // indirect
+	github.com/imdario/mergo v0.3.12 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
@@ -53,6 +58,7 @@ require (
 	github.com/prometheus/client_model v0.4.0 // indirect
 	github.com/prometheus/common v0.42.0 // indirect
 	github.com/prometheus/procfs v0.9.0 // indirect
+	github.com/ray-project/kuberay/ray-operator v0.0.0-20231016183545-097828931d15 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
