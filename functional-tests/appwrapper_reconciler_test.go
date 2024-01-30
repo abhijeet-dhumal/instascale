@@ -8,6 +8,7 @@ import (
 	"testing"
 	"time"
 
+	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	gstruct "github.com/onsi/gomega/gstruct"
 	machinev1beta1 "github.com/openshift/api/machine/v1beta1"
@@ -24,6 +25,11 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 	log "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+)
+
+var (
+	ctx    context.Context
+	cancel context.CancelFunc
 )
 
 func logger() {
@@ -50,6 +56,7 @@ func logger() {
 func startEnvTest(t *testing.T) *rest.Config {
 	// to redirect all functional test related logs to separate logfile ~ default (in functional-tests directory), can be changed using environment variable LOG_FILE_PATH=/path_to_logfile
 	logger()
+	ctx, cancel = context.WithCancel(context.TODO())
 
 	//specify testEnv configuration
 	testEnv := &envtest.Environment{
@@ -62,9 +69,10 @@ func startEnvTest(t *testing.T) *rest.Config {
 	test := WithConfig(t, testEnv.Config)
 	cfg, err := testEnv.Start()
 	test.Expect(err).NotTo(HaveOccurred())
+	test.Expect(cfg).NotTo(BeNil())
 
 	t.Cleanup(func() {
-		teardownTestEnv(t, testEnv)
+		teardownTestEnv(test, testEnv)
 	})
 
 	return cfg
@@ -99,16 +107,18 @@ func startInstascaleController(test Test, cfg *rest.Config) {
 
 	// Start the controller manager in a goroutine.
 	go func() {
+		defer GinkgoRecover()
 		err = k8sManager.Start(ctrl.SetupSignalHandler())
 		test.Expect(err).ToNot(HaveOccurred())
 	}()
 
 }
 
-func teardownTestEnv(t *testing.T, testEnv *envtest.Environment) {
-	if err := testEnv.Stop(); err != nil {
-		t.Log("Error stopping test Environment\n", err)
-	}
+func teardownTestEnv(test Test, testEnv *envtest.Environment) {
+	cancel()
+	By("tearing down the test environment")
+	err := testEnv.Stop()
+	test.Expect(err).NotTo(HaveOccurred())
 }
 
 func instascaleAppwrapper(namespace string) *mcadv1beta1.AppWrapper {
